@@ -9,6 +9,7 @@ import {
   Alert,
   Keyboard,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import Card from "../shared/components/Card";
 import NumberContainer from "./../shared/components/NumberContainer";
@@ -84,7 +85,7 @@ const GameScreen = (props) => {
         <ScrollView>
           {guessList.map((guess, index) => {
             return (
-              <View style={styles.listItem}>
+              <View style={styles.listItem} key={`${guess}__${index}`}>
                 <BodyText>#{guessList.length - index}</BodyText>
                 <BodyText>{guess}</BodyText>
               </View>
@@ -105,22 +106,22 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20,
+    marginTop: Dimensions.get("window").height < 900 ? 5 : 20,
     width: 400,
     maxWidth: "90%",
   },
   list: {
     flex: 1,
-    width: "80%",
+    width: Dimensions.get("window").height < 900 ? "80%" : "60%",
   },
   listItem: {
     flexDirection: "row",
     justifyContent: "space-around",
     borderColor: "#ccc",
     borderWidth: 1,
-    padding: 15,
+    padding: Dimensions.get("window").height < 900 ? 8 : 15,
     borderStyle: "dotted",
-    marginVertical: 10,
+    marginVertical: Dimensions.get("window").height < 900 ? 5 : 10,
     backgroundColor: "white",
   },
 });

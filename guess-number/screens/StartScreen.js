@@ -8,6 +8,9 @@ import {
   TextInput,
   Alert,
   Keyboard,
+  Dimensions,
+  ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 
 import NumberContainer from "../shared/components/NumberContainer";
@@ -65,40 +68,44 @@ const StartScreen = (props) => {
   }
 
   return (
-    <View style={styles.screen}>
-      <TitleText style={styles.title}>Start a New Game!</TitleText>
+    <ScrollView>
+      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30}>
+        <View style={styles.screen}>
+          <TitleText style={styles.title}>Start a New Game!</TitleText>
 
-      <Card style={styles.inputContainer}>
-        <BodyText style={styles.text}>Select a Number</BodyText>
-        <Input
-          style={styles.input}
-          blurOnSubmit
-          autoCapitalize="none"
-          autoCorrect={false}
-          keyboardType="number-pad"
-          maxLength={2}
-          onChangeText={numberInputHandler}
-          value={enteredValue}
-        />
-        <View style={styles.buttonContainer}>
-          <View>
-            <Button
-              title="Reset"
-              color={Colors.accent}
-              onPress={resetInputHandler}
+          <Card style={styles.inputContainer}>
+            <BodyText style={styles.text}>Select a Number</BodyText>
+            <Input
+              style={styles.input}
+              blurOnSubmit
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="number-pad"
+              maxLength={2}
+              onChangeText={numberInputHandler}
+              value={enteredValue}
             />
-          </View>
-          <View>
-            <Button
-              title="Confirm"
-              color={Colors.primary}
-              onPress={confirmInputHandler}
-            />
-          </View>
+            <View style={styles.buttonContainer}>
+              <View>
+                <Button
+                  title="Reset"
+                  color={Colors.accent}
+                  onPress={resetInputHandler}
+                />
+              </View>
+              <View>
+                <Button
+                  title="Confirm"
+                  color={Colors.primary}
+                  onPress={confirmInputHandler}
+                />
+              </View>
+            </View>
+          </Card>
+          {confirmedOutput}
         </View>
-      </Card>
-      {confirmedOutput}
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 };
 
@@ -122,10 +129,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonContainer: {
-    width: "60%",
+    width: Dimensions.get("window").width < 500 ? "80%" : "60%",
     flexDirection: "row",
     marginTop: 10,
-    justifyContent: "space-around",
+    justifyContent: "space-between",
   },
   summaryContainer: {
     marginTop: 20,

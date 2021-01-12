@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+} from "react-native";
 
 import Colors from "../constants/color";
 import BodyText from "../shared/components/BodyText";
@@ -48,9 +55,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   imageContainer: {
-    width: 250,
-    height: 250,
-    borderRadius: 150,
+    width: Dimensions.get("window").width * 0.7,
+    height: Dimensions.get("window").width * 0.7,
+    borderRadius: (Dimensions.get("window").width * 0.7) / 2,
     borderWidth: 2,
     borderColor: "black",
     overflow: "hidden",
@@ -58,12 +65,12 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   resultContainer: {
-    marginHorizontal: 50,
-    marginVertical: 20,
+    marginHorizontal: Dimensions.get("window").height < 900 ? 20 : 50,
+    marginVertical: Dimensions.get("window").height < 900 ? 10 : 20,
   },
   resultText: {
     textAlign: "center",
-    fontSize: 20,
+    fontSize: Dimensions.get("window").width < 500 ? 16 : 20,
   },
   image: {
     width: "100%",
