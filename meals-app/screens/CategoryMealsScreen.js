@@ -8,49 +8,54 @@ import {
   Platform,
   FlatList,
 } from "react-native";
+import { useSelector } from "react-redux";
+import DefaultText from "../components/DefaultText";
 
 import MealList from "../components/MealList";
 
 import Colors from "./../constants/Colors";
 
-import { CATEGORIES, MEALS } from "./../data/dummy-data";
+import { CATEGORIES } from "./../data/dummy-data";
 
 const CategoryMealsScreen = (props) => {
   const catId = props.navigation.getParam("categoryId");
   const selectedCategory = CATEGORIES.find((item) => item.id === catId);
+  const availableMeals = useSelector((state) => state.meals.filteredMeals);
 
-  // const renderMealItem = (itemData) => {
-  //   return (
-  //     <MealItem
-  //       title={itemData.item.title}
-  //       duration={itemData.item.duration}
-  //       affordability={itemData.item.affordability}
-  //       complexity={itemData.item.complexity}
-  //       image={itemData.item.imageUrl}
-  //       onSelectMeal={() => navigateToDetails(itemData.item.id)}
-  //     />
-  //   );
-  // };
-
-  const navigateToDetails = (id) => {
+  const navigateToDetails = (item) => {
     props.navigation.navigate({
       routeName: "MealDetail",
       params: {
-        mealId: id,
+        mealId: item.id,
+        mealTitle: item.title,
       },
     });
   };
 
-  const displayMeals = MEALS.filter(
+  const displayMeals = availableMeals.filter(
     (meal) => meal.categoryIds.indexOf(catId) >= 0
   );
+
+  if (displayMeals.length === 0) {
+    return (
+      <View style={styles.content}>
+        <DefaultText>NO meals found. Check you filters!</DefaultText>
+      </View>
+    );
+  }
 
   return (
     <MealList listData={displayMeals} navigateToDetails={navigateToDetails} />
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  content: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 CategoryMealsScreen.navigationOptions = (screenProps) => {
   const catId = screenProps.navigation.getParam("categoryId");

@@ -15,7 +15,7 @@ const MealList = (props) => {
         affordability={itemData.item.affordability}
         complexity={itemData.item.complexity}
         image={itemData.item.imageUrl}
-        onSelectMeal={() => navigateToDetails(itemData.item.id)}
+        onSelectMeal={() => navigateToDetails(itemData.item)}
       />
     );
   };
