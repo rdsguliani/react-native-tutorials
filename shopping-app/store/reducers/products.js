@@ -3,13 +3,15 @@ import {
   ADD_TO_CART,
   CREATE_PRODUCT,
   DELETE_PRODUCT,
+  GET_PRODUCTS,
   SELECTED_PRODUCT,
+  SET_PRODUCTS,
   UPDATE_PRODUCT,
 } from "../actions/products";
 import { PRODUCTS } from "./../../data/dummy-data";
 
 const initialState = {
-  availableProducts: PRODUCTS,
+  availableProducts: [],
   selectedProduct: null,
   userProducts: PRODUCTS.filter((product) => product.ownerId === "u1"),
 };
@@ -18,6 +20,16 @@ const productReducer = (state = initialState, action) => {
   const type = action.type;
 
   switch (type) {
+    case SET_PRODUCTS:
+      return {
+        ...state,
+        availableProducts: action.products,
+        userProducts: action.products.filter(
+          (product) => product.ownerId === "u1"
+        ),
+      };
+      break;
+
     case SELECTED_PRODUCT:
       const selectedProduct = state.availableProducts.find(
         (product) => product.id === action.productId
@@ -40,9 +52,9 @@ const productReducer = (state = initialState, action) => {
       };
 
     case CREATE_PRODUCT:
-      const { title, imageUrl, description, price } = action.productDetail;
+      const { id, title, imageUrl, description, price } = action.productDetail;
       const newProduct = new Product(
-        Math.random(),
+        id,
         "u1",
         title,
         imageUrl,

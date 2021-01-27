@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { View, Text, FlatList, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Button,
+  ActivityIndicator,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../../components/shop/CartItem";
 import BoldText from "../../shared/components/UI/BoldText";
@@ -12,6 +19,8 @@ import { addOrder } from "../../store/actions/orders";
 
 const CartScreen = (props) => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
   const totalAmount = useSelector((state) => state.cart.totalAmount);
   const cartItems = useSelector((state) => {
     const tranformItems = [];
@@ -31,9 +40,11 @@ const CartScreen = (props) => {
     dispatch(removeFromCart(productId));
   };
 
-  const addToOrder = () => {
-    dispatch(addOrder(cartItems, totalAmount));
-    dispatch(clearCart());
+  const addToOrder = async () => {
+    setIsLoading(true);
+    await dispatch(addOrder(cartItems, totalAmount));
+    await dispatch(clearCart());
+    setIsLoading(false);
   };
 
   return (
@@ -42,12 +53,16 @@ const CartScreen = (props) => {
         <BoldText style={styles.summaryText}>
           Total: <Text style={styles.amount}>${totalAmount.toFixed(2)} </Text>
         </BoldText>
-        <Button
-          title="Order now"
-          color={Colors.accent}
-          disabled={cartItems.length === 0}
-          onPress={addToOrder}
-        />
+        {isLoading ? (
+          <ActivityIndicator color={Colors.primary} size="small" />
+        ) : (
+          <Button
+            title="Order now"
+            color={Colors.accent}
+            disabled={cartItems.length === 0}
+            onPress={addToOrder}
+          />
+        )}
       </Card>
       <View>
         <FlatList

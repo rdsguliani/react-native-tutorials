@@ -1,8 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider, useSelector } from "react-redux";
+import ReduxThunk from "redux-thunk";
 
 import productReducer from "./store/reducers/products";
 import ProductsOverviewScreen from "./screens/shop/ProductsOverviewScreen";
@@ -18,7 +19,7 @@ const rootReducer = combineReducers({
   orders: ordersReducer,
 });
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
   const [isPrefetch, setIsPrefetch] = useState(false);
