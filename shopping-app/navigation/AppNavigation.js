@@ -1,6 +1,6 @@
 import React from "react";
 import { Platform } from "react-native";
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,6 +16,7 @@ import OrdersScreen from "../screens/shop/OrdersScreen";
 import { createStore } from "redux";
 import Order from "../models/order";
 import EditProductScreen from "../screens/user/EditProductScreen";
+import AuthScreen from "../screens/user/AuthScreen";
 
 const navigationOptions = {
   headerStyle: {
@@ -75,7 +76,7 @@ const AdminNavigator = createStackNavigator(
   }
 );
 
-const MainNavigator = createDrawerNavigator(
+const ShopNavigator = createDrawerNavigator(
   {
     Products: {
       screen: ProductNavigator,
@@ -111,5 +112,19 @@ const MainNavigator = createDrawerNavigator(
     },
   }
 );
+
+const AuthNavigator = createStackNavigator(
+  {
+    Auth: AuthScreen,
+  },
+  {
+    defaultNavigationOptions: navigationOptions,
+  }
+);
+
+const MainNavigator = createSwitchNavigator({
+  Auth: AuthNavigator,
+  Shop: ShopNavigator,
+});
 
 export default createAppContainer(MainNavigator);

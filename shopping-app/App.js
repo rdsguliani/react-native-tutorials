@@ -5,18 +5,21 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider, useSelector } from "react-redux";
 import ReduxThunk from "redux-thunk";
 
-import productReducer from "./store/reducers/products";
 import ProductsOverviewScreen from "./screens/shop/ProductsOverviewScreen";
 
 import AppNavigator from "./navigation/AppNavigation";
 import LoadingApp from "./shared/components/LoadingApp";
+
+import productReducer from "./store/reducers/products";
 import cartReducer from "./store/reducers/cart";
 import ordersReducer from "./store/reducers/orders";
+import authReducer from "./store/reducers/auth";
 
 const rootReducer = combineReducers({
   products: productReducer,
   cart: cartReducer,
   orders: ordersReducer,
+  auth: authReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

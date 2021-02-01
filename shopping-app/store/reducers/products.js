@@ -13,7 +13,7 @@ import { PRODUCTS } from "./../../data/dummy-data";
 const initialState = {
   availableProducts: [],
   selectedProduct: null,
-  userProducts: PRODUCTS.filter((product) => product.ownerId === "u1"),
+  userProducts: [],
 };
 
 const productReducer = (state = initialState, action) => {
@@ -24,9 +24,7 @@ const productReducer = (state = initialState, action) => {
       return {
         ...state,
         availableProducts: action.products,
-        userProducts: action.products.filter(
-          (product) => product.ownerId === "u1"
-        ),
+        userProducts: action.userProducts,
       };
       break;
 
@@ -52,10 +50,17 @@ const productReducer = (state = initialState, action) => {
       };
 
     case CREATE_PRODUCT:
-      const { id, title, imageUrl, description, price } = action.productDetail;
+      const {
+        id,
+        title,
+        imageUrl,
+        description,
+        price,
+        ownerId,
+      } = action.productDetail;
       const newProduct = new Product(
         id,
-        "u1",
+        ownerId,
         title,
         imageUrl,
         description,
@@ -69,7 +74,6 @@ const productReducer = (state = initialState, action) => {
       break;
 
     case UPDATE_PRODUCT:
-      console.log(action.productDetail);
       const index = state.userProducts.findIndex(
         (product) => product.id === action.productDetail.productId
       );

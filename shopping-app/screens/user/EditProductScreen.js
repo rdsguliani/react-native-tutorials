@@ -73,31 +73,36 @@ const EditProductScreen = (props) => {
     formIsValid: false,
   });
 
-  const submitHandler = useCallback(() => {
+  const submitHandler = useCallback(async () => {
     if (!formState.formIsValid) {
       Alert.alert("Wrong Input !", "Enter valid detials", [{ text: "Okay" }]);
       return;
     }
-    if (editProduct) {
-      dispatch(
-        updateProduct(
-          prodId,
-          formState.inputValues.title,
-          formState.inputValues.description,
-          formState.inputValues.imageUrl
-        )
-      );
-    } else {
-      dispatch(
-        createProduct(
-          formState.inputValues.title,
-          formState.inputValues.description,
-          formState.inputValues.imageUrl,
-          +formState.inputValues.price
-        )
-      );
+    try {
+      if (editProduct) {
+        await dispatch(
+          updateProduct(
+            prodId,
+            formState.inputValues.title,
+            formState.inputValues.description,
+            formState.inputValues.imageUrl
+          )
+        );
+      } else {
+        await dispatch(
+          createProduct(
+            formState.inputValues.title,
+            formState.inputValues.description,
+            formState.inputValues.imageUrl,
+            +formState.inputValues.price
+          )
+        );
+      }
+      props.navigation.goBack();
+    } catch (e) {
+      Alert.alert("Error", "something went wrongww", [{ text: "Okay" }]);
+      return;
     }
-    props.navigation.goBack();
   }, [dispatch, prodId, formState]);
 
   useEffect(() => {
