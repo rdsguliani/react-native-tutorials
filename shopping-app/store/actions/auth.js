@@ -1,8 +1,6 @@
 export const SIGN_UP = "SIGN_UP";
 export const LOGIN = "LOGIN";
 
-const API_KEY = "AIzaSyDgPymH-0iZrUWLNscHPQZRacF66EcCRLE";
-
 export const signup = (email, password) => {
   console.log(email, password);
   return async (dispatch) => {
