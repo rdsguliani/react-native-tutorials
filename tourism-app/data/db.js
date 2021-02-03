@@ -51,7 +51,7 @@ export const getPlaces = () => {
     try {
       db.transaction((tx) => {
         tx.executeSql(
-          `SELECT * FRom places`,
+          `SELECT * FROM places`,
           [],
           (_, result) => {
             resolve(result);
